@@ -2,6 +2,7 @@ package com.beyond.variable;
 
 import com.beyond.variable.practice.A_Variable;
 import com.beyond.variable.practice.B_ConsoleOutput;
+import com.beyond.variable.practice.C_KeyBoardInput;
 
 /*
  * 주석(Comment)
@@ -26,6 +27,7 @@ public class Application {
 		// 1-2) import 문을 사용하여 클래스 생성
 		A_Variable variable = new A_Variable();
 		B_ConsoleOutput output = new B_ConsoleOutput();
+		C_KeyBoardInput input = new C_KeyBoardInput();
 		
 
 		// 2) 생성한 클래스로 메소드 실행(호출)
@@ -36,7 +38,9 @@ public class Application {
 //		variable.casting();
 //		variable.practice();
 		
-		output.valuePrint();
+//		output.valuePrint();
+		
+		input.inputByScanner();
 	}
 
 }
