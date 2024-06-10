@@ -6,6 +6,7 @@ import com.beyond.control.practice.C_For;
 import com.beyond.control.practice.D_While;
 import com.beyond.control.practice.E_Break;
 import com.beyond.control.practice.F_Continue;
+import com.beyond.control.practice.G_LoopPractice;
 
 public class Application {
 
@@ -32,7 +33,13 @@ public class Application {
 		// 분기문 실습
 //		new E_Break().method1();
 		
-		new F_Continue().method1();
+//		new F_Continue().method1();
+		
+//		new G_LoopPractice().practice1();
+//		new G_LoopPractice().practice2();
+//		new G_LoopPractice().practice3();
+		new G_LoopPractice().practice4();
+//		new G_LoopPractice().practice5();
 	}
 
 }

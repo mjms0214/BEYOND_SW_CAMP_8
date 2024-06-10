@@ -10,7 +10,7 @@ public class F_Continue {
 	 */
 	
 	// 구구단(2 ~ 9단)을 출력
-	// 단, 홀수단을 빼고 출
+	// 단, 홀수단을 빼고 출력
 	public void method1() {
 		for (int i = 2; i <= 9; i++) {
 			if (i % 2 != 0) {
