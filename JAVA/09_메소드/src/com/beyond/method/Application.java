@@ -32,9 +32,19 @@ public class Application {
 		System.out.println(member.information());
 		methodTest.method5(member);
 		System.out.println(member.information());
+		System.out.println();
 		
 		// 6. 매개변수로 가변인자를 전달받는 메소드 호출
-		methodTest.method6();
+//		int[] array = {1, 4, 5};
+//		System.out.println(methodTest.method6(array));
+//		System.out.println(methodTest.method6(new int[] {1, 2, 3, 4, 5}));
+//		System.out.println(methodTest.method6(new int[] {}));
+//		methodTest.method6({1, 2, 3, 4, 5});
+		
+		System.out.println(methodTest.method6(1, 4, 5));
+		System.out.println(methodTest.method6(1, 2, 3, 4, 5));
+		System.out.println(methodTest.method6());
+
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.beyond.method.practice;
 
+import java.util.Arrays;
+
 public class A_Method {
 	
 		// 1. 매개변수가 없고 반환값도 없는 메소드
@@ -45,10 +47,22 @@ public class A_Method {
 		}
 		
 		// 6. 매개변수로 가변인자를 전달받는 메소드
-		public int method6() {
-			int result = 0;
+		// 1) 배열을 사용하는 방법
+//		public int method6(int[] numbers) {
+		// 2) 가변 인자를 사용하는 방법
+		// - 자바 1.5부터 지원한다.
+		// - 메소드 호출 시 넘겨준 값의 수에 따라 자동으로 배열이 생성되고 매개값으로 사용된다.
+		// - 가변 인자는 항상 매개변수 마지막에 있어야 한다.
+		public int method6(int... numbers) {
+			int sum = 0;
 			
+			System.out.println(numbers.length);
+			System.out.println(Arrays.toString(numbers));
 			
-			return result;
+			for (int value : numbers) {
+				sum += value;
+			}
+			
+			return sum;
 		}
 }
