@@ -17,6 +17,9 @@ public class Application {
 		
 		// private: 클래스 내에서만 직접 접근이 가능하다.
 //		System.out.println(user.password);
+		
+		// 변수 구분 테스트
+		user.test(10);
 	}
 
 }
