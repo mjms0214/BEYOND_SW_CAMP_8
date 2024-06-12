@@ -60,7 +60,22 @@ public class Application {
 				System.out.println("inch : " + ((Television)p).getInch());
 			}
 		}
-
+		
+		// 매개변수의 다형성
+		productInfo(new Desktop());
+		productInfo(new Television());
+		productInfo(new SmartPhone());
 	}
-
+	
+	public static void productInfo(Product p) {
+		System.out.println(p);
+		
+		if (p instanceof Desktop) {
+			System.out.println("isAllInOne : " + ((Desktop)p).isAllInOne());
+		} else if (p instanceof SmartPhone) {
+			System.out.println("mobileAgency : " + ((SmartPhone)p).getMobileAgency());
+		} else {
+			System.out.println("inch : " + ((Television)p).getInch());
+		}		
+	}
 }
