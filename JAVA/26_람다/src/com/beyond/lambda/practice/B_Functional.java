@@ -33,10 +33,11 @@ public class B_Functional {
 
 //		fi = (int a) -> System.out.println(a * a);
 //		
-//		fi.method(5);
+//		fi.method(10);
 	}
 	
 	public void method3() {
+		int result = 0;
 		C_FunctionalInterface fi;
 		
 		fi = (int a, int b) -> {
@@ -45,7 +46,7 @@ public class B_Functional {
 		
 		fi = (a, b) -> a + b;
 
-		int result = fi.method(10, 20);
+		result = fi.method(10, 20);
 		
 		System.out.println("result : " + result);
 	
