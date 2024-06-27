@@ -4,6 +4,9 @@ import com.beyond.stream.practice.B_Filtering;
 import com.beyond.stream.practice.C_Sorted;
 import com.beyond.stream.practice.D_Mapping;
 import com.beyond.stream.practice.E_Looping;
+import com.beyond.stream.practice.F_Match;
+import com.beyond.stream.practice.G_Aggregate;
+import com.beyond.stream.practice.H_Collect;
 
 public class Application {
 
@@ -36,7 +39,14 @@ public class Application {
 //		new D_Mapping().method1();
 //		new D_Mapping().method2();
 		
-		new E_Looping().method1();
+//		new E_Looping().method1();
+		
+//		new F_Match().method1();
+//		new F_Match().method2();
+		
+//		new G_Aggregate().method1();
+		
+		new H_Collect().method1();
 	}
 
 }
