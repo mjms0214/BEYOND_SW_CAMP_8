@@ -17,7 +17,7 @@ public class Member {
 	private String name;
 	private String phone;
 	private String email;
-	private String addrress;
+	private String address;
 	private String hobby;
 	private String status;
 	private Date enrollDate;

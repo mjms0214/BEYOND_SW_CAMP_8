@@ -39,7 +39,7 @@ public class MemberDaoImpl implements MemberDao {
 				member.setName(rs.getString("name"));
 				member.setPhone(rs.getString("phone"));
 				member.setEmail(rs.getString("email"));
-				member.setAddrress(rs.getString("address"));
+				member.setAddress(rs.getString("address"));
 				member.setHobby(rs.getString("hobby"));
 				member.setStatus(rs.getString("status"));
 				member.setEnrollDate(rs.getDate("enroll_date"));
@@ -56,17 +56,13 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public int insertMember(Member member) {
+	public int insertMember(Connection connection, Member member) {
 		
 		int result = 0;
-		Connection connection = null;
 		PreparedStatement pstmt = null;
 		String query  = "INSERT INTO tb_member VALUES(NULL, ?,?,DEFAULT,?,?,?,?,?,DEFAULT,DEFAULT,DEFAULT)";
 		
 		try {
-			Class.forName("org.mariadb.jdbc.Driver");
-			
-			connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/web", "beyond", "1234");
 			
 			// insert 바로 수행 -> false로 하면 자동 commit 안됨(트랜잭션)
 //			connection.setAutoCommit(false);
@@ -77,25 +73,65 @@ public class MemberDaoImpl implements MemberDao {
 			pstmt.setString(3, member.getName());
 			pstmt.setString(4, member.getPhone());
 			pstmt.setString(5, member.getEmail());
-			pstmt.setString(6, member.getAddrress());
+			pstmt.setString(6, member.getAddress());
 			pstmt.setString(7, member.getHobby());
 			
 			result = pstmt.executeUpdate();
 			
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				pstmt.close();
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
+			close(pstmt);
 		}
 		
+		
+		return result;
+	}
+
+	public int updateMember(Connection connection, Member member) {
+		int result = 0;
+		String query = "UPDATE tb_member SET name =?,phone=?,email=?,address=?,hobby=?,modify_date=CURDATE() WHERE no=?";
+		
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+			pstmt.setString(1, member.getName());
+			pstmt.setString(2, member.getPhone());
+			pstmt.setString(3, member.getEmail());
+			pstmt.setString(4, member.getAddress());
+			pstmt.setString(5, member.getHobby());
+			pstmt.setInt(6, member.getNo());
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public int delete(Connection connection, int no) {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String query = "DELETE FROM tb_member WHERE no=?";
+		
+		try {
+			pstmt = connection.prepareStatement(query);
+			
+			pstmt.setInt(1, no);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
 		
 		return result;
 	}

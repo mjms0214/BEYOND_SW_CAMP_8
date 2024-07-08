@@ -25,6 +25,8 @@ public class MemeberLoginServlet extends HttpServlet {
 		
 		Member loginMember = new MemberServiceImpl().login(userId, userPwd);
 		
+		System.out.println(userId + ", " + userPwd);
+		
 		if (loginMember != null) {
 			// loginMember 객체를 세션에 저장
 			session = request.getSession();

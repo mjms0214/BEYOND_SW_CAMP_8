@@ -32,7 +32,7 @@ public class MemberEnrollServlet extends HttpServlet {
 		member.setName(request.getParameter("userName"));
 		member.setPhone(request.getParameter("phone"));
 		member.setEmail(request.getParameter("email"));
-		member.setAddrress(request.getParameter("address"));
+		member.setAddress(request.getParameter("address"));
 		
 		String hobby = request.getParameterValues("hobby") != null ? String.join(",", request.getParameterValues("hobby")) : null;
 		

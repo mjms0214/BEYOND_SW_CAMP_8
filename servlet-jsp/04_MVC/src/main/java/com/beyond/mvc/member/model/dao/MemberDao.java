@@ -7,6 +7,6 @@ import com.beyond.mvc.member.model.vo.Member;
 public interface MemberDao {
 	Member findMemberById(Connection connection, String userId);
 	
-	int insertMember(Member member);
+	int insertMember(Connection connection, Member member);
 
 }
