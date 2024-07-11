@@ -43,6 +43,13 @@
 	    <scope>test</scope>
 	</dependency>
 	
+	<!-- lombok 라이브러리 -->
+	<dependency>
+	    <groupId>org.projectlombok</groupId>
+	    <artifactId>lombok</artifactId>
+	    <version>1.18.34</version>
+	    <scope>provided</scope>
+	</dependency>	
   	
   	<!-- 테스트 관련 라이브러리 -->
     <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
