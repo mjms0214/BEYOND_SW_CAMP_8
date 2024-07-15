@@ -6,4 +6,8 @@ public interface MemberService {
 
 	Member login(String userId, String userPwd);
 
+	int save(Member member);
+
+	int delete(int no);
+
 }

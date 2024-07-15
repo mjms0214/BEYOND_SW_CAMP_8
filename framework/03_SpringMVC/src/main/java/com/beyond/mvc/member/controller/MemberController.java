@@ -14,11 +14,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.beyond.mvc.member.model.service.MemberService;
 import com.beyond.mvc.member.model.vo.Member;
 
 @Controller
+@SessionAttributes("loginMember")
 public class MemberController {
 	private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 	
@@ -91,36 +96,141 @@ public class MemberController {
 	@Autowired
 	private MemberService service;
 	
+//	@PostMapping("/login")
+//	public String login(@RequestParam String userId, @RequestParam String userPwd, HttpSession session, Model model) {
+//		
+//		log.debug("login() 호출 - {} {}", userId, userPwd);
+//		
+//		Member loginMember = service.login(userId, userPwd);
+//		
+//		if (loginMember != null) {
+//			session.setAttribute("loginMember", loginMember);
+//			
+//			return "redirect:/";
+//		} else {
+//			model.addAttribute("msg", "아이디나 패스워드가 일치하지 않습니다.");
+//			model.addAttribute("location", "/");
+//			
+//			return "common/msg";
+//		}
+//		
+//		
+//	}
+//	
+//	// 로그아웃 처리
+//	@PostMapping("/logout")
+//	public String logout(HttpSession session) {
+//		
+//		session.invalidate();
+//		
+//		return "redirect:/";
+//	}
+	
+	// 2. @SessionAttributes와 ModelView 객체 사용
+	//	1) ModelAndView
+	//		- 뷰에 대한 정보와 뷰로 전달할 데이터를 담는 객체이다.
+	//	2) @SessionAttributes("Attribute 이름")
+	//		- Model 객체에서 "Attribute 이름"에 해당하는 Attribute를 Session Scope까지 범위를 확장하는 어노테이션이다.
 	@PostMapping("/login")
-	public String login(@RequestParam String userId, @RequestParam String userPwd, HttpSession session, Model model) {
+	public ModelAndView login(@RequestParam String userId, @RequestParam String userPwd, ModelAndView modelAndView) {
 		
 		log.debug("login() 호출 - {} {}", userId, userPwd);
 		
 		Member loginMember = service.login(userId, userPwd);
 		
 		if (loginMember != null) {
-			session.setAttribute("loginMember", loginMember);
+			modelAndView.addObject("loginMember", loginMember);
 			
-			return "redirect:/";
+			modelAndView.setViewName("redirect:/");
 		} else {
-			model.addAttribute("msg", "아이디나 패스워드가 일치하지 않습니다.");
-			model.addAttribute("location", "/");
+			modelAndView.addObject("msg", "아이디나 패스워드가 일치하지 않습니다.");
+			modelAndView.addObject("location", "/");
 			
-			return "common/msg";
+			modelAndView.setViewName("common/msg");
 		}
 		
+		return modelAndView;
 		
 	}
 	
-	// 로그아웃 처리
 	@PostMapping("/logout")
-	public String logout(HttpSession session) {
+	public String logout(SessionStatus status) {
 		
-		session.invalidate();
+		// 세션 스코프로 확장된 객체들을 지워준다.
+		status.setComplete();
 		
 		return "redirect:/";
 	}
 	
+	@GetMapping("/member/enroll")
+	public void enrollView() {
+		log.info("enrollView() - 호출");	
+	}
+	
+	@PostMapping("/member/enroll")
+	public ModelAndView enroll(ModelAndView modelAndView, Member member) {
+		int result = 0;
+		
+		result = service.save(member);
+		
+		if (result > 0) {
+			modelAndView.addObject("msg", "회원가입이 정상적으로 완료되었습니다.");
+			modelAndView.addObject("location", "/");
+		} else {
+			modelAndView.addObject("msg", "회원가입을 실패하였습니다.");
+			modelAndView.addObject("location", "/member/enroll");
+			
+		}
+		modelAndView.setViewName("common/msg");
+		return modelAndView;
+	}
+	
+	@GetMapping("/member/info")
+	public String info() {
+		return "member/info";
+	}
+	
+	@PostMapping("/member/update")
+	public ModelAndView update(ModelAndView modelAndView, Member member, @SessionAttribute(name="loginMember") Member loginMember ) {
+		int result = 0;
+		
+		loginMember.setName(member.getName());
+		loginMember.setPhone(member.getPhone());
+		loginMember.setAddress(member.getAddress());
+		loginMember.setEmail(member.getEmail());
+		loginMember.setHobby(member.getHobby());
+		
+		result = service.save(loginMember);
+		
+		if (result > 0) {
+			modelAndView.addObject("msg", "수정이 정상적으로 완료되었습니다.");
+			modelAndView.addObject("location", "/member/info");
+		} else {
+			modelAndView.addObject("msg", "수정을 실패하였습니다.");
+			modelAndView.addObject("location", "/member/info");
+			
+		}
+		modelAndView.setViewName("common/msg");
+		return modelAndView;
+	}
+	
+	@GetMapping("/member/delete")
+	public ModelAndView delete(ModelAndView modelAndView, SessionStatus status, @SessionAttribute(name="loginMember") Member loginMember) {
+		int result = 0;
+		result = service.delete(loginMember.getNo());
+		
+		if (result > 0) {
+			status.setComplete();
+			modelAndView.addObject("msg", "탈퇴가 완료되었습니다.");
+			modelAndView.addObject("location", "/");
+		} else {
+			modelAndView.addObject("msg", "탈퇴를 실패하였습니다.");
+			modelAndView.addObject("location", "/member/info");
+			
+		}
+		modelAndView.setViewName("common/msg");
+		return modelAndView;
+	}
 	
 	
 }
