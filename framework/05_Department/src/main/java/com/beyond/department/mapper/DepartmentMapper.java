@@ -14,4 +14,12 @@ public interface DepartmentMapper {
 
 	int selectDepartmentCount(@Param("openYn") String openYn);
 
+	Department selectDepartmentByDeptNo(String deptNo);
+
+	int insertDepartment(Department department);
+
+	int updateDepartment(Department department);
+
+	void deleteDepartment(String deptNo);
+
 }

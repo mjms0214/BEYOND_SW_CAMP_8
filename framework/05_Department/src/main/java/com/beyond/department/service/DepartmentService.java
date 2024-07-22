@@ -9,5 +9,11 @@ public interface DepartmentService {
 	List<Department> getDepartments(int page, int numOfRows, String openYn);
 
 	int getTotalCount(String openYn);
+	
+	Department getDepartmentByDeptNo(String deptNo);
+
+	int save(Department department);
+
+	void delete(String no);
 
 }
