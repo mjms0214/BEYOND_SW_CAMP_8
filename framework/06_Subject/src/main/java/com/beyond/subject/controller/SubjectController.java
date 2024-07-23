@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.beyond.subject.api.DepartmentApiClient;
 import com.beyond.subject.dto.BaseResponseDto;
+import com.beyond.subject.dto.DepartmentResponseDto;
 import com.beyond.subject.dto.ItemsResponseDto;
 import com.beyond.subject.dto.SubjectRequestDto;
 import com.beyond.subject.service.SubjectService;
 import com.beyond.subject.vo.Subject;
+import com.beyond.university.student.model.vo.Department;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,6 +39,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SubjectController {
 	private final SubjectService subjectService;
+	private final DepartmentApiClient departmentApiClient;
 	@GetMapping("/subejcts")
 	@Operation(summary="과목 목록 조회", description = "전체 과목의 목록을 조회한다.")
 	@ApiResponse(responseCode="404", description="NOT FOUND",
@@ -145,4 +149,19 @@ public class SubjectController {
 			return ResponseEntity.ok(new BaseResponseDto<>(HttpStatus.NOT_FOUND, subject));	
 		}
 	}
+	
+	@GetMapping("/{subject-no}/departments/{department-no}")
+	public ResponseEntity<DepartmentResponseDto> getDepartmentBydeptNo(@PathVariable("subject-no") String subjectNo, @PathVariable("department-no") String deptNo){
+		Subject subject = subjectService.getSubjectBySubNo(subjectNo);
+		
+		
+		if (subject != null && subject.getDepartmentNo().equals(deptNo)) {
+			return departmentApiClient.getDepartmentByDeptNo(deptNo);
+		} else {
+			return ResponseEntity.ok(new DepartmentResponseDto(HttpStatus.NOT_FOUND, null));
+			
+		}
+		
+	}
+	
 }

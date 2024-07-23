@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: subject-service
@@ -15,3 +18,5 @@ springdoc:
     operations-sorter: method
   paths-to-match:
   - /v1/**
+department-service:
+  baseurl: http://localhost:8080/v1/department-service/departments/

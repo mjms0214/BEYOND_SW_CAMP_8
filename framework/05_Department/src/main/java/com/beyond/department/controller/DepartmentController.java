@@ -88,7 +88,7 @@ public class DepartmentController {
 		
 	}
 	
-	@GetMapping("/departmets/{department-no}")
+	@GetMapping("/departments/{department-no}")
 	@Operation(summary = "학과 상세 조회", description = "학과 번호로 학과의 상세 정보를 조회한다.")	
 	@ApiResponses(
 			value = {

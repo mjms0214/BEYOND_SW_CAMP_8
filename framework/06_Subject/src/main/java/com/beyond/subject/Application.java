@@ -2,6 +2,8 @@ package com.beyond.subject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 public class Application {
@@ -9,5 +11,11 @@ public class Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
+	
+	@Bean
+	   public RestTemplate restTemplate() {
+	      // Spring에서 제공하는 HTTP 통신을 위한 템플릿 클래스
+	      return new RestTemplate();
+	   }
 
 }

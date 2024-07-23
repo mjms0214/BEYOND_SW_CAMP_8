@@ -77,6 +77,11 @@
 			<version>3.0.3</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.beyond</groupId>
+			<artifactId>04_University</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
