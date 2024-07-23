@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.beyond.subject.mapper.SubjectMapper">
+    <resultMap id="subjectResultMap" type="Subject"><!-- 조회 된 결과를 Subject 타입으로-->
+        <id property="no" column="class_no"/>
+        <result property="name" column="class_name"/>
+        <result property="preattendingClass" column="preattending_class_no"/>
+        <result property="type" column="class_type"/>
+        <result property="departmentNo" column="department_no"/>
+    </resultMap>
+    
+    <select id="selectSubjectCount" resultType="_int">
+        SELECT count(*) FROM tb_class
+    </select>
+    
+    <select id="selectSubjects" parameterType="string" resultMap="subjectResultMap">
+        SELECT class_no,
+               class_name,
+               preattending_class_no,
+               class_type,
+               department_no
+        FROM tb_class
+        ORDER BY class_name ASC
+    </select>
+    
+    <select id="selectSubjectBySubNo" parameterType="string" resultMap="subjectResultMap">
+    	 SELECT class_no,
+               	class_name,
+                preattending_class_no,
+                class_type,
+                department_no
+        FROM tb_class
+        WHERE class_no = #{subNo}
+    </select>
+    
+    <insert id="insertSubject" parameterType="Subject">
+	    <selectKey resultType="string" keyProperty = "no" order = "BEFORE">
+	    	SELECT CONCAT("C", LPAD(CONVERT(SUBSTRING(class_no, 2, 7), INT)+1, 7, 0))
+	    	FROM tb_class
+	    	ORDER BY class_no DESC LIMIT 1
+	    </selectKey>
+	    INSERT INTO tb_class (
+			class_no,
+	       	class_name,
+	        preattending_class_no,
+	        class_type,
+	        department_no
+		) VALUES (
+			#{no},
+			#{name},
+			#{preattendingClass},
+			#{type},
+			#{departmentNo}
+		)
+    </insert>
+    <update id="updateSubject" parameterType="Subject">
+    	UPDATE tb_class
+    	<trim prefix="SET">
+    		<if test="name != null">
+    			class_name = #{name},		
+    		</if>
+    		<if test="preattendingClass != null">
+	    		preattending_class_no = #{preattendingClass},
+    		</if>
+    		<if test="type != null">
+	    		class_type = #{type},
+    		</if>
+    		<if test="departmentNo != null">
+	    		department_no = #{departmentNo}
+    		</if>
+    	</trim>
+    	WHERE class_no = #{no}
+    </update>
+    
+    <delete id="deleteSubject" parameterType="string">
+      DELETE
+      FROM tb_class
+      WHERE class_no = #{subNo}
+    </delete>
+</mapper>
